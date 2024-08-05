@@ -1,18 +1,15 @@
-import java.util.Stack;
-
 public class LongestSubString {
     public int lengthOfLongestSubstring(String s) {
+        String  longestSubstring = "";
         int maxLength = 0;
-        Stack<Character> characterStack = new Stack<>();
-        for(int index  = 0; index < s.length();index++){
-            if(characterStack.empty() || characterStack.search(s.charAt(index))==-1)
-                characterStack.push(s.charAt(index));
-            else if(characterStack.search(s.charAt(index)) != -1){
-                maxLength = Math.max(maxLength, characterStack.size());
-                characterStack.clear();
-                characterStack.push(s.charAt(index));
+        for(int index  = 0; index < s.length(); index++){
+            int charIndex = longestSubstring.indexOf(s.charAt(index));
+            if(charIndex != -1){
+               maxLength = Math.max(maxLength, longestSubstring.length());
+                longestSubstring = longestSubstring.substring(charIndex+1);
             }
+            longestSubstring += s.charAt(index);
         }
-        return maxLength;
+        return Math.max(maxLength, longestSubstring.length());
     }
 }
