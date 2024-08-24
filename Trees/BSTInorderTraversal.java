@@ -1,66 +1,36 @@
 package Trees;
 
-import apple.laf.JRSUIUtils;
-import sun.reflect.generics.tree.Tree;
-
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 public class BSTInorderTraversal {
 
-    public class TreeNode {
-      int val;
-      TreeNode left;
-      TreeNode right;
-      TreeNode() {}
-      TreeNode(int val) { this.val = val; }
-      TreeNode(int val, TreeNode left, TreeNode right) {
-          this.val = val;
-          this.left = left;
-          this.right = right;
-      }
-  }
-    public List<Integer> inorderTraversal(TreeNode root) {
+    public void inorderTraversal(TreeNode root, List<Integer> inorderList) {
+        if(root != null){
+            inorderTraversal(root.left, inorderList);
+            inorderList.add(root.val);
+            inorderTraversal(root.right, inorderList);
+        }
 
-        List<Integer> inOrderList = new ArrayList<>();
-        Stack<TreeNode> stack = new Stack<>();
+    }
+
+    public void inorderTraversalIterative(TreeNode root, List<Integer> inorderList){
         TreeNode temp = root;
+        Stack<TreeNode> store = new Stack<>();
         while(true){
-            while(temp != null){
-                stack.push(temp);
+            if(temp == null){
+                temp = store.pop();
+                inorderList.add(temp.val);
+                temp = temp.right;
+            }
+            else {
+                store.push(temp);
                 temp = temp.left;
             }
-            if(stack.empty())
-                break;
-            temp = stack.pop();
-            inOrderList.add(temp.val);
-            temp = temp.right;
+            if(store.empty())
+                return;
         }
-        return inOrderList;
-    }
-
-    private void inorder(TreeNode root){
-        if(root != null){
-            inorder(root.left);
-            System.out.println(root.val);
-            inorder(root.right);
-        }
-    }
-
-    public TreeNode createTree(int [] input){
-        TreeNode root = new TreeNode(input[0],null,null);
-        TreeNode temp = root;
-        Queue<TreeNode> treeNodes = new LinkedList<>();
-        for(int index = 1;index< input.length ; index++){
-            if(temp.left == null){
-                temp.left = new TreeNode(input[index],null,null);
-                treeNodes.add(temp.left);
-            }
-            else if(temp.right == null){
-                temp.right = new TreeNode(input[index],null,null);
-                treeNodes.add(temp.right);
-                temp = treeNodes.poll();
-            }
-        }
-        return root;
     }
 }
